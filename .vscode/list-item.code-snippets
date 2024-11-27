@@ -33,7 +33,7 @@
 	"selected item reaction": {
 		"scope": "typescriptreact",
 		"prefix": "indexReaction",
-		"body": "useAnimatedReaction( () => selectedIndex.value, (current, previous) => { switch (true) { case current === previous: break; case current === index: yOffset.value = withSpring(0, { damping: 28 }); break; case current === null: yOffset.value = withSpring(previousOffset.value, { damping: 28 }); break; default: yOffset.value = withSpring(500 + index * 30, { damping: 28 }); } } );"
+		"body": "useAnimatedReaction( () => selectedIndex.value, (current) => { switch (true) { case current === index: yOffset.value = withSpring(0, { damping: 28 }); break; case current === null: yOffset.value = withSpring(previousOffset.value, { damping: 28 }); break; default: yOffset.value = withSpring(500 + index * 30, { damping: 28 }); } } );"
 	},
 	"image height animation": {
 		"scope": "typescriptreact",
@@ -44,5 +44,10 @@
 		"scope": "typescriptreact",
 		"prefix": "baseScrollReaction",
 		"body": "useAnimatedReaction( () => listYTranslation.value, (curr) => { if (selectedIndex.value === null) { yOffset.value = curr + index * (IMG_HEIGHT - STACK_OFFSET); previousOffset.value = yOffset.value; } } );"
+	},
+	"tap gesture reaction": {
+		"scope": "typescriptreact",
+		"prefix": "tapReaction",
+		"body": "const tapGesture = Gesture.Tap().onStart(() => { if (index === selectedIndex.value) { selectedIndex.value = null; return; } selectedIndex.value = index; });"
 	}
 }
