@@ -1,0 +1,48 @@
+{
+	// Place your techLunchDemo workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"constants": {
+		"scope": "typescript,typescriptreact",
+		"prefix": "projectConstants",
+		"body": "const IMG_HEIGHT = 80; const ALL_IMAGES = [ \"space_marines\", \"necrons\", \"thousand_sons\", \"black_templars\", \"astra_militarum\", \"adepta_sororitas\", \"blood_angels\", \"imperial_agents\", \"adeptus_custodes\", \"chaos_daemons\", \"imperial_knights\", \"adeptus_mechanicus\", \"tau_empire\", \"death_guard\", \"aeldari\", \"chaos_space_marines\", \"space_wolves\", \"emperors_children\", \"genestealer_cults\", \"drukhari\", \"leagues_of_votann\", \"tyranids\", \"orks\", \"dark_angels\", \"grey_knights\", \"world_eaters\", \"chaos_knights\", ] as const;\n export { ALL_IMAGES, IMG_HEIGHT }; "
+	},
+	"base list item": {
+		"scope": "typescriptreact",
+		"prefix": "baseListItem",
+		"body": "import { StyleSheet } from \"react-native\";\nimport Animated from \"react-native-reanimated\";\nimport { Image\n} from \"expo-image\";\nimport { IMG_HEIGHT\n} from \"@/constants\";\ntype ListItemProps = {\nsource: string;\n};\nconst ListItem = ({ source\n}: ListItemProps) => {\nreturn (\n<Animated.View style={styles.itemWrapper\n}>\n\n<Image contentFit=\"cover\" source={source\n} style={styles.image\n} />\n</Animated.View>\n);\n};\nconst styles = StyleSheet.create({\nitemWrapper: {\nborderRadius: 8,\nborderWidth: 1,\nborderColor: \"#ccc\",\nwidth: \"100%\",\nheight: IMG_HEIGHT,\n},\nimage: {\nflex: 1,\nwidth: \"100%\",\n},\n});\nexport default ListItem;\n"
+	},
+	"base list": {
+		"scope": "typescriptreact",
+		"prefix": "baseList",
+		"body": "import { ALL_IMAGES } from \"@/constants\"; import ListItem from \"./ListItem\"; import { StyleSheet, View } from \"react-native\"; const List = () => { return ( <View style={styles.listWrapper }>{ALL_IMAGES.map((img) => ( <ListItem source={img } key={img } /> )) }</View> ); }; const styles = StyleSheet.create({ listWrapper: { flex: 1, overflow: \"hidden\", paddingHorizontal: 16, }, }); export default List; "
+	},
+	"selected item reaction": {
+		"scope": "typescriptreact",
+		"prefix": "indexReaction",
+		"body": "useAnimatedReaction( () => selectedIndex.value, (current, previous) => { switch (true) { case current === previous: break; case current === index: yOffset.value = withSpring(0, { damping: 28 }); break; case current === null: yOffset.value = withSpring(previousOffset.value, { damping: 28 }); break; default: yOffset.value = withSpring(500 + index * 30, { damping: 28 }); } } );"
+	},
+	"image height animation": {
+		"scope": "typescriptreact",
+		"prefix": "imgHeightAnimation",
+		"body": "const rImgStyle = useAnimatedStyle<ViewStyle>(() => ({ height: withDelay( index === selectedIndex.value ? 200 : 0, withTiming(index === selectedIndex.value ? IMG_HEIGHT + 200 : IMG_HEIGHT) ), }));"
+	},
+	"base scroll reaction": {
+		"scope": "typescriptreact",
+		"prefix": "baseScrollReaction",
+		"body": "useAnimatedReaction( () => listYTranslation.value, (curr) => { if (selectedIndex.value === null) { yOffset.value = curr + index * (IMG_HEIGHT - STACK_OFFSET); previousOffset.value = yOffset.value; } } );"
+	}
+}
