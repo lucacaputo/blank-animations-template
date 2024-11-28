@@ -38,7 +38,7 @@
       [
         "expo-asset",
         {
-          "assets": ["./assets/images"]
+          "assets": ["./assets/armies"]
         }
       ]
     ],

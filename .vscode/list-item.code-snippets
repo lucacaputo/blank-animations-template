@@ -49,5 +49,10 @@
 		"scope": "typescriptreact",
 		"prefix": "tapReaction",
 		"body": "const tapGesture = Gesture.Tap().onStart(() => { if (index === selectedIndex.value) { selectedIndex.value = null; return; } selectedIndex.value = index; });"
+	},
+	"diable pan": {
+		"scope": "typescriptreact",
+		"prefix": "tapReaction",
+		"body": "const [panEnabled, setPanEnabled] = useState(true); useAnimatedReaction( () => selectedIndex.value, (current) => { if (current !== null) { runOnJS(setPanEnabled)(false); } else { runOnJS(setPanEnabled)(true); } } );"
 	}
 }
