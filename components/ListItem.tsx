@@ -1,4 +1,4 @@
-import { StyleSheet, ViewStyle } from "react-native";
+import { Button, StyleSheet, View, ViewStyle } from "react-native";
 import Animated, {
   SharedValue,
   useAnimatedReaction,
@@ -10,6 +10,7 @@ import Animated, {
 import { Image } from "expo-image";
 import { IMG_HEIGHT, STACK_OFFSET } from "@/constants";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { Link } from "expo-router";
 
 type ListItemProps = {
   source: string;
@@ -55,6 +56,9 @@ const ListItem = ({
 
   const rItemStyle = useAnimatedStyle<ViewStyle>(() => ({
     transform: [{ translateY: yOffset.value }],
+  }));
+
+  const rImgStyle = useAnimatedStyle<ViewStyle>(() => ({
     height: withTiming(
       index === selectedIndex.value ? IMG_HEIGHT + 200 : IMG_HEIGHT
     ),
@@ -69,26 +73,37 @@ const ListItem = ({
   });
 
   return (
-    <GestureDetector gesture={tapGesture}>
-      <Animated.View style={[styles.itemWrapper, rItemStyle]}>
-        <Image contentFit="cover" source={source} style={styles.image} />
-      </Animated.View>
-    </GestureDetector>
+    <Animated.View style={[styles.itemWrapper, rItemStyle]}>
+      <GestureDetector gesture={tapGesture}>
+        <Animated.View style={[styles.imageWrapper, rImgStyle]}>
+          <Image source={source} style={styles.image} contentFit="cover" />
+        </Animated.View>
+      </GestureDetector>
+      <Link href={`/${source}`} asChild>
+        <Button title="More" />
+      </Link>
+    </Animated.View>
   );
 };
+
 const styles = StyleSheet.create({
   itemWrapper: {
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ccc",
     width: "100%",
     position: "absolute",
     marginLeft: 16,
-    height: IMG_HEIGHT,
+  },
+  imageWrapper: {
+    flex: 1,
+    borderRadius: 8,
+    overflow: "hidden",
   },
   image: {
-    borderWidth: 1,
-    borderColor: "#ccc",
     flex: 1,
     width: "100%",
-    borderRadius: 8,
   },
 });
+
 export default ListItem;
