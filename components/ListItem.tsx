@@ -19,6 +19,8 @@ type ListItemProps = {
   selectedIndex: SharedValue<number | null>;
 };
 
+export const AnimatedExpoImage = Animated.createAnimatedComponent(Image);
+
 const ListItem = ({
   source,
   listYTranslation,
@@ -76,7 +78,12 @@ const ListItem = ({
     <Animated.View style={[styles.itemWrapper, rItemStyle]}>
       <GestureDetector gesture={tapGesture}>
         <Animated.View style={[styles.imageWrapper, rImgStyle]}>
-          <Image source={source} style={styles.image} contentFit="cover" />
+          <AnimatedExpoImage
+            source={source}
+            style={styles.image}
+            contentFit="cover"
+            sharedTransitionTag={source}
+          />
         </Animated.View>
       </GestureDetector>
       <Link href={`/${source}`} asChild>

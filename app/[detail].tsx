@@ -2,7 +2,7 @@ import { IMG_HEIGHT } from "@/constants";
 import { useLocalSearchParams } from "expo-router";
 import { StyleSheet, View, Text } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import { Image } from "expo-image";
+import { AnimatedExpoImage } from "@/components/ListItem";
 
 const DetailPage = () => {
   const { detail } = useLocalSearchParams<{ detail: string }>();
@@ -10,7 +10,11 @@ const DetailPage = () => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.imageWrapper}>
-        <Image source={detail} style={styles.image} />
+        <AnimatedExpoImage
+          source={detail}
+          style={styles.image}
+          sharedTransitionTag={detail}
+        />
       </View>
       <Animated.View style={[{ padding: 16 }]} entering={FadeInDown.delay(400)}>
         <Text style={{ fontSize: 20 }}>
