@@ -1,16 +1,11 @@
-import { Text, View } from "react-native";
+import List from "@/components/List";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Index = () => {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Home</Text>
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <List />
+    </SafeAreaView>
   );
 };
 
