@@ -5,6 +5,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import { Image } from "expo-image";
 import { IMG_HEIGHT, STACK_OFFSET } from "@/constants";
@@ -54,6 +55,9 @@ const ListItem = ({
 
   const rItemStyle = useAnimatedStyle<ViewStyle>(() => ({
     transform: [{ translateY: yOffset.value }],
+    height: withTiming(
+      index === selectedIndex.value ? IMG_HEIGHT + 200 : IMG_HEIGHT
+    ),
   }));
 
   const tapGesture = Gesture.Tap().onStart(() => {
