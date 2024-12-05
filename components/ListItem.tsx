@@ -7,6 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { Image } from "expo-image";
 import { IMG_HEIGHT, STACK_OFFSET } from "@/constants";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 type ListItemProps = {
   source: string;
@@ -30,6 +31,8 @@ const ListItem = ({
       if (selectedIndex.value === null) {
         yOffset.value = curr + index * (IMG_HEIGHT - STACK_OFFSET);
         previousOffset.value = yOffset.value;
+      } else {
+        console.log(`item ${selectedIndex.value} has been tapped!`);
       }
     }
   );
@@ -38,10 +41,20 @@ const ListItem = ({
     transform: [{ translateY: yOffset.value }],
   }));
 
+  const tapGesture = Gesture.Tap().onStart(() => {
+    if (index === selectedIndex.value) {
+      selectedIndex.value = null;
+      return;
+    }
+    selectedIndex.value = index;
+  });
+
   return (
-    <Animated.View style={[styles.itemWrapper, rItemStyle]}>
-      <Image contentFit="cover" source={source} style={styles.image} />
-    </Animated.View>
+    <GestureDetector gesture={tapGesture}>
+      <Animated.View style={[styles.itemWrapper, rItemStyle]}>
+        <Image contentFit="cover" source={source} style={styles.image} />
+      </Animated.View>
+    </GestureDetector>
   );
 };
 const styles = StyleSheet.create({
