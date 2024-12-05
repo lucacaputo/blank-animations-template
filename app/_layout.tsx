@@ -8,6 +8,7 @@ const RootLayout = () => {
       <SafeAreaProvider>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="[detail]" options={{ headerTitle: "Detail" }} />
         </Stack>
       </SafeAreaProvider>
     </GestureHandlerRootView>
