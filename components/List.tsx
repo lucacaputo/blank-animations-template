@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const List = () => {
   const listYTranslation = useSharedValue(0);
+  const selectedIndex = useSharedValue<number | null>(null);
 
   const { height } = useWindowDimensions();
   const { top, bottom } = useSafeAreaInsets();
@@ -37,6 +38,7 @@ const List = () => {
             key={img}
             listYTranslation={listYTranslation}
             index={index}
+            selectedIndex={selectedIndex}
           />
         ))}
       </Animated.View>

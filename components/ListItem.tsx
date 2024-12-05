@@ -1,8 +1,9 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 import Animated, {
   SharedValue,
+  useAnimatedReaction,
   useAnimatedStyle,
-  useDerivedValue,
+  useSharedValue,
 } from "react-native-reanimated";
 import { Image } from "expo-image";
 import { IMG_HEIGHT, STACK_OFFSET } from "@/constants";
@@ -11,19 +12,34 @@ type ListItemProps = {
   source: string;
   listYTranslation: SharedValue<number>;
   index: number;
+  selectedIndex: SharedValue<number | null>;
 };
 
-const ListItem = ({ source, listYTranslation, index }: ListItemProps) => {
-  const yOffset = useDerivedValue(
-    () => listYTranslation.value + index * (IMG_HEIGHT - STACK_OFFSET)
+const ListItem = ({
+  source,
+  listYTranslation,
+  index,
+  selectedIndex,
+}: ListItemProps) => {
+  const yOffset = useSharedValue(0);
+  const previousOffset = useSharedValue(0);
+
+  useAnimatedReaction(
+    () => listYTranslation.value,
+    (curr) => {
+      if (selectedIndex.value === null) {
+        yOffset.value = curr + index * (IMG_HEIGHT - STACK_OFFSET);
+        previousOffset.value = yOffset.value;
+      }
+    }
   );
 
-  const rStyle = useAnimatedStyle(() => ({
+  const rItemStyle = useAnimatedStyle<ViewStyle>(() => ({
     transform: [{ translateY: yOffset.value }],
   }));
 
   return (
-    <Animated.View style={[styles.itemWrapper, rStyle]}>
+    <Animated.View style={[styles.itemWrapper, rItemStyle]}>
       <Image contentFit="cover" source={source} style={styles.image} />
     </Animated.View>
   );
