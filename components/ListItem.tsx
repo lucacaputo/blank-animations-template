@@ -31,8 +31,6 @@ const ListItem = ({
       if (selectedIndex.value === null) {
         yOffset.value = curr + index * (IMG_HEIGHT - STACK_OFFSET);
         previousOffset.value = yOffset.value;
-      } else {
-        console.log(`item ${selectedIndex.value} has been tapped!`);
       }
     }
   );

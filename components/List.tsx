@@ -2,8 +2,14 @@ import { ALL_IMAGES, IMG_HEIGHT, STACK_OFFSET } from "@/constants";
 import ListItem from "./ListItem";
 import { StyleSheet, useWindowDimensions } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, { useSharedValue, withDecay } from "react-native-reanimated";
+import Animated, {
+  runOnJS,
+  useAnimatedReaction,
+  useSharedValue,
+  withDecay,
+} from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useState } from "react";
 
 const List = () => {
   const listYTranslation = useSharedValue(0);
@@ -12,7 +18,21 @@ const List = () => {
   const { height } = useWindowDimensions();
   const { top, bottom } = useSafeAreaInsets();
 
+  const [panEnabled, setPanEnabled] = useState(true);
+
+  useAnimatedReaction(
+    () => selectedIndex.value,
+    (current) => {
+      if (current !== null) {
+        runOnJS(setPanEnabled)(false);
+      } else {
+        runOnJS(setPanEnabled)(true);
+      }
+    }
+  );
+
   const panGesture = Gesture.Pan()
+    .enabled(panEnabled)
     .onChange(({ changeY }) => {
       listYTranslation.value += changeY;
     })
