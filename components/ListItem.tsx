@@ -4,6 +4,7 @@ import Animated, {
   useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
+  withSpring,
 } from "react-native-reanimated";
 import { Image } from "expo-image";
 import { IMG_HEIGHT, STACK_OFFSET } from "@/constants";
@@ -31,6 +32,22 @@ const ListItem = ({
       if (selectedIndex.value === null) {
         yOffset.value = curr + index * (IMG_HEIGHT - STACK_OFFSET);
         previousOffset.value = yOffset.value;
+      }
+    }
+  );
+
+  useAnimatedReaction(
+    () => selectedIndex.value,
+    (current) => {
+      switch (true) {
+        case current === index:
+          yOffset.value = withSpring(0, { damping: 28 });
+          break;
+        case current === null:
+          yOffset.value = withSpring(previousOffset.value, { damping: 28 });
+          break;
+        default:
+          yOffset.value = withSpring(500 + index * 30, { damping: 28 });
       }
     }
   );
